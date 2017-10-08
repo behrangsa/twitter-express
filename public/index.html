@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <title>Twitter Express</title>
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>A Twitter authentication and authorization proof-of-concept</h1>
+
+<h2>Features</h2>
+
+<ul>
+    <li>Authenticate using Twitter to obtain <code>access token</code> and <code>token secret</code>.</li>
+    <li>Remember authentication state</li>
+    <li>Post tweets to Twitter</li>
+</ul>
+
+<div class="hidden" id="login-panel">
+    <a href="/auth/twitter">Login with your Twitter account</a>
+</div>
+
+<div class="hidden" id="logout-panel">
+    <a href="/auth/logout">Logout</a>
+</div>
+
+<div class="hidden" id="profile-panel">
+    <p>
+        Your profile information:
+    </p>
+
+    <pre id="profile-information">
+
+    </pre>
+</div>
+
+<div class="hidden" id="compose-panel">
+    <form>
+        <p>Post a tweet:</p>
+        <textarea id="compose-area" title="Tweet text"></textarea>
+
+        <div>
+            <input id="publish-tweet" type="submit">
+        </div>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script>
+    function getProfileInformation() {
+        return $.ajax('/auth/me', {
+            type: 'GET'
+        });
+    }
+
+    $(document).ready(function () {
+        getProfileInformation().done(function (userProfile) {
+            $("#profile-information").text(JSON.stringify(JSON.parse(userProfile), null, 2));
+            $("#login-panel").addClass('hidden');
+            $("#logout-panel, #profile-panel, #compose-panel").removeClass('hidden');
+        }).fail(function (xhr, textStatus, error) {
+            $("#logout-panel, #profile-panel, #compose-panel").addClass('hidden');
+            $("#login-panel").removeClass('hidden');
+            console.log(textStatus, error);
+        });
+
+        $('#publish-tweet').on('click', function () {
+            $.ajax({
+                type: "POST",
+                url: '/tweet',
+                data: $("#compose-area").val()
+            }).done(function (response) {
+                // TODO
+            }).fail(function (xhr, textStatus, error) {
+                // TODO
+            });
+
+            return false;
+        });
+    });
+</script>
+</body>
+</html>

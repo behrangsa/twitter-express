@@ -1,0 +1,18 @@
+{
+  "name": "twitter-express",
+  "version": "0.0.1",
+  "description": "A simple application demonstrating authentication and authorization using Twitter",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "connect-loki": "^1.1.0",
+    "express": "^4.16.1",
+    "express-session": "^1.15.6",
+    "oauth": "^0.9.15",
+    "twitter": "^1.7.1"
+  }
+}
